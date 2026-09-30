@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Modern, responsive Student Study Planner for college students to track tasks, organize subjects, manage priorities, and monitor study progress." />
+  <title>Study Planner | Student Dashboard</title>
+
+  <!-- Google Fonts for Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient Background Glow Orbs -->
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-section">
+          <div class="logo-badge">
+            <span class="logo-icon">📚</span>
+          </div>
+          <div>
+            <h1 class="brand-title">Study Planner</h1>
+            <span class="badge-tag">Student Dashboard</span>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <div class="date-pill" id="currentDateDisplay" title="Current Date">
+            <span class="calendar-icon">📅</span>
+            <span id="currentDateText">Today</span>
+          </div>
+
+          <!-- Dark / Light Mode Toggle -->
+          <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle Theme">
+            <span class="theme-icon sun-icon">☀️</span>
+            <span class="theme-icon moon-icon">🌙</span>
+            <span class="theme-label" id="themeLabel">Dark</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Motivational Tagline -->
+      <div class="motivational-banner">
+        <p class="tagline-text">
+          <span class="sparkle">✨</span> Plan your study. Track your progress. Achieve your goals.
+        </p>
+      </div>
+    </header>
+
+    <!-- Dashboard Summary Cards Grid -->
+    <section class="dashboard-summary" aria-label="Study Statistics Summary">
+      <div class="summary-card card-total">
+        <div class="card-icon-wrapper total-icon">
+          <span>📋</span>
+        </div>
+        <div class="card-info">
+          <span class="card-label">Total Tasks</span>
+          <h3 class="card-value" id="totalTasksCount">3</h3>
+        </div>
+      </div>
+
+      <div class="summary-card card-completed">
+        <div class="card-icon-wrapper completed-icon">
+          <span>✅</span>
+        </div>
+        <div class="card-info">
+          <span class="card-label">Completed</span>
+          <h3 class="card-value" id="completedTasksCount">1</h3>
+        </div>
+      </div>
+
+      <div class="summary-card card-pending">
+        <div class="card-icon-wrapper pending-icon">
+          <span>⏳</span>
+        </div>
+        <div class="card-info">
+          <span class="card-label">Pending</span>
+          <h3 class="card-value" id="pendingTasksCount">2</h3>
+        </div>
+      </div>
+
+      <div class="summary-card card-progress">
+        <div class="card-icon-wrapper progress-icon">
+          <span>🎯</span>
+        </div>
+        <div class="card-info">
+          <span class="card-label">Progress Rate</span>
+          <h3 class="card-value" id="progressPercentCount">33%</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overall Visual Progress Section -->
+    <section class="progress-section" aria-label="Overall Study Progress">
+      <div class="progress-header">
+        <div class="progress-title-area">
+          <h2 class="section-heading">
+            <span class="heading-icon">📊</span> Your Study Progress
+          </h2>
+          <span class="progress-ratio" id="progressRatioText">1 of 3 tasks completed</span>
+        </div>
+        <div class="progress-badge" id="progressBadge">33% Done</div>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33" id="progressBarTrack">
+        <div class="progress-fill" id="progressBarFill" style="width: 33%;"></div>
+      </div>
+    </section>
+
+    <!-- Main Content: Two Column Layout on Desktop -->
+    <main class="main-content-layout">
+      
+      <!-- Left Column: Add Task Form Section -->
+      <aside class="left-panel">
+        <section class="card-panel form-panel" aria-labelledby="formHeading">
+          <div class="panel-header">
+            <h2 id="formHeading" class="panel-title">
+              <span>✍️</span> Add Study Task
+            </h2>
+            <span class="sub-badge">New Plan</span>
+          </div>
+
+          <form id="addTaskForm" class="task-form" novalidate>
+            <!-- Task Name -->
+            <div class="form-group">
+              <label for="taskNameInput" class="form-label">
+                Task Name <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <input 
+                  type="text" 
+                  id="taskNameInput" 
+                  class="form-input" 
+                  placeholder="e.g. Implement Binary Search Tree" 
+                  maxlength="100" 
+                  autocomplete="off"
+                />
+              </div>
+              <div class="validation-message" id="taskNameValidation" aria-live="polite"></div>
+            </div>
+
+            <!-- Subject Dropdown -->
+            <div class="form-group">
+              <label for="subjectSelect" class="form-label">Subject</label>
+              <div class="select-wrapper">
+                <select id="subjectSelect" class="form-select">
+                  <option value="Data Structures">🌲 Data Structures</option>
+                  <option value="Java">☕ Java</option>
+                  <option value="Python">🐍 Python</option>
+                  <option value="DBMS">🗄️ DBMS</option>
+                  <option value="Computer Networks">🌐 Computer Networks</option>
+                  <option value="Operating Systems">💻 Operating Systems</option>
+                  <option value="Web Development" selected>⚡ Web Development</option>
+                  <option value="Other">📖 Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row for Priority & Due Date -->
+            <div class="form-row">
+              <!-- Priority Dropdown -->
+              <div class="form-group form-col">
+                <label for="prioritySelect" class="form-label">Priority</label>
+                <div class="select-wrapper">
+                  <select id="prioritySelect" class="form-select">
+                    <option value="High">🔥 High</option>
+                    <option value="Medium" selected>⚡ Medium</option>
+                    <option value="Low">🌱 Low</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Due Date Input -->
+              <div class="form-group form-col">
+                <label for="dueDateInput" class="form-label">Due Date</label>
+                <div class="input-wrapper">
+                  <input type="date" id="dueDateInput" class="form-input date-input" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block" id="addTaskSubmitBtn">
+              <span class="btn-icon">➕</span> Add Study Task
+            </button>
+          </form>
+        </section>
+
+        <!-- Quick Subject Stats Widget -->
+        <div class="card-panel subject-summary-panel">
+          <h3 class="mini-panel-title">📚 Subjects in Focus</h3>
+          <div class="subject-chips" id="subjectChipsContainer">
+            <button type="button" class="subject-chip"><span>⚡</span> Web Development <span class="chip-count">1</span></button>
+            <button type="button" class="subject-chip"><span>🌲</span> Data Structures <span class="chip-count">1</span></button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Filters & Task Cards List -->
+      <section class="right-panel" aria-labelledby="taskListHeading">
+        <div class="card-panel list-panel">
+          
+          <!-- Task List Header & Controls -->
+          <div class="list-panel-header">
+            <div class="header-left">
+              <h2 id="taskListHeading" class="panel-title">
+                <span>📑</span> Study Tasks
+              </h2>
+              <span class="active-count-badge" id="visibleTasksCount">3 tasks</span>
+            </div>
+
+            <!-- Search bar -->
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchInput" class="search-input" placeholder="Search tasks..." />
+              <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display: none;">✕</button>
+            </div>
+          </div>
+
+          <!-- Filter & Sorting Bar -->
+          <div class="filters-toolbar">
+            <!-- Status Filter Buttons -->
+            <div class="status-filters" role="group" aria-label="Filter tasks by status">
+              <button type="button" class="filter-btn active" data-status="all" id="filterAll">
+                All <span class="filter-pill" id="filterPillAll">3</span>
+              </button>
+              <button type="button" class="filter-btn" data-status="pending" id="filterPending">
+                Pending <span class="filter-pill" id="filterPillPending">2</span>
+              </button>
+              <button type="button" class="filter-btn" data-status="completed" id="filterCompleted">
+                Completed <span class="filter-pill" id="filterPillCompleted">1</span>
+              </button>
+            </div>
+
+            <!-- Secondary Filters: Subject & Sort -->
+            <div class="dropdown-filters">
+              <div class="filter-dropdown-wrapper">
+                <label for="filterSubject" class="visually-hidden">Filter by Subject</label>
+                <select id="filterSubject" class="filter-select" aria-label="Filter by Subject">
+                  <option value="all">All Subjects</option>
+                  <option value="Data Structures">Data Structures</option>
+                  <option value="Java">Java</option>
+                  <option value="Python">Python</option>
+                  <option value="DBMS">DBMS</option>
+                  <option value="Computer Networks">Computer Networks</option>
+                  <option value="Operating Systems">Operating Systems</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="filter-dropdown-wrapper">
+                <label for="sortBySelect" class="visually-hidden">Sort Tasks</label>
+                <select id="sortBySelect" class="filter-select" aria-label="Sort Tasks">
+                  <option value="dueSoon">Sort: Due Date</option>
+                  <option value="priority">Sort: Priority</option>
+                  <option value="newest">Sort: Newly Added</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks Container -->
+          <div class="tasks-container" id="tasksContainer" aria-live="polite">
+            <!-- Dynamic task cards loaded via script.js -->
+          </div>
+
+          <!-- Empty State (Shown when no tasks match) -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon-circle">
+              <span>📚</span>
+            </div>
+            <h3 class="empty-title" id="emptyStateTitle">No study tasks yet</h3>
+            <p class="empty-desc" id="emptyStateDesc">Add your first task and start planning your study!</p>
+          </div>
+
+        </div>
+
+        <!-- Motivational Quote Banner at the Bottom -->
+        <section class="card-panel motivational-card" aria-label="Motivational Quote">
+          <div class="quote-header">
+            <span class="quote-icon">💡</span>
+            <h3 class="quote-title">Keep Going!</h3>
+          </div>
+          <p class="quote-text">
+            "Small progress every day leads to big results. Stay consistent with your studies!"
+          </p>
+          <div class="quote-footer">
+            <span class="quote-tag">#StudySmart</span>
+            <span class="quote-tag">#ConsistencyIsKey</span>
+            <span class="quote-tag">#CollegeLife</span>
+          </div>
+        </section>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>🎓 Student Study Planner &bull; Built with HTML, CSS &amp; Vanilla JavaScript</p>
+    </footer>
+  </div>
+
+  <!-- Custom Sleek Confirmation Modal for Task Deletion -->
+  <div class="modal-overlay" id="deleteModalOverlay" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-icon-wrapper">
+        <span>🗑️</span>
+      </div>
+      <h3 id="modalTitle" class="modal-title">Delete Task?</h3>
+      <p class="modal-text">
+        Are you sure you want to remove <strong id="deleteTaskTargetName">this task</strong> from your study plan? This action cannot be undone.
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
